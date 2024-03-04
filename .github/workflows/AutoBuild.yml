@@ -26,7 +26,7 @@ jobs:
           submodules: recursive
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+        uses: android-actions/setup-android@v3
 
       - name: Install NDK and CMake
         run: |
@@ -44,7 +44,7 @@ jobs:
           ./build-cabal -j everything
 
       - name: Pack prebuilt libraries
-        if: github.event_name == 'pull_request'
+        #if: github.event_name == 'pull_request'
         run: |
           cd build
           mkdir prebuilt
@@ -55,14 +55,14 @@ jobs:
           tar --zstd -cf prebuilt.tar.zst prebuilt/
 
       - name: Upload prebuilt to artifact
-        if: github.event_name == 'pull_request'
+        #if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           path: build/prebuilt.tar.zst
 
       - name: Fetch fcitx5-android/prebuilt
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: actions/checkout@v3
+       # if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/checkout@v4
         with:
           path: prebuilt
           repository: wxyzh/prebuilt
