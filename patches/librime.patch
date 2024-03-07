@@ -8,19 +8,18 @@ Subject: [PATCH] set file-prefix-map to relative path
  1 file changed, 1 insertion(+)
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 6364e1c8..347107f0 100644
+index 6ee20e89..ca26612f 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -143,6 +143,8 @@ if(BUILD_SHARED_LIBS)
+@@ -156,6 +156,8 @@ if(BUILD_SHARED_LIBS)
  else()
    add_library(rime-static STATIC ${rime_src})
    target_link_libraries(rime-static ${rime_deps})
 +  target_compile_options(rime-static PRIVATE "-ffile-prefix-map=${CMAKE_SOURCE_DIR}=.")
 +  target_compile_definitions(rime-static PRIVATE BOOST_DISABLE_CURRENT_LOCATION)
-   set_target_properties(rime-static PROPERTIES OUTPUT_NAME "rime" PREFIX "lib")
-   install(TARGETS rime-static DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
- endif()
--- 
+   set_target_properties(rime-static PROPERTIES
+     OUTPUT_NAME "rime" PREFIX "lib"
+     ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 2.43.0
 
 
