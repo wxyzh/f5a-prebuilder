@@ -11,3 +11,18 @@ index 4028ccc..2151ef4 100644
        logging_directories_list->push_back("./");
  #endif
      }
+
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 846b444..7de30e5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -615,6 +615,8 @@ add_library (glogbase OBJECT
+   ${GLOG_SRCS}
+ )
+ 
++target_compile_options(glogbase PRIVATE "-ffile-prefix-map=${CMAKE_CURRENT_SOURCE_DIR}=.")
++
+ add_library (glog
+   $<TARGET_OBJECTS:glogbase>
+ )
