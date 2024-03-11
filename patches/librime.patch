@@ -118,3 +118,25 @@ index 678169c0..1085fe5c 100644
 -- 
 2.43.0
 
+---
+ src/rime/lever/user_dict_manager.cc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/rime/lever/user_dict_manager.cc b/src/rime/lever/user_dict_manager.cc
+index e0331e4c..3ae4fb66 100644
+--- a/src/rime/lever/user_dict_manager.cc
++++ b/src/rime/lever/user_dict_manager.cc
+@@ -49,6 +49,11 @@ void UserDictManager::GetUserDictList(UserDictList* user_dict_list,
+ }
+ 
+ bool UserDictManager::Backup(const string& dict_name) {
++  // 跳过以 ".temp" 结尾的字典名称
++  if (dict_name.size() >= 5 && dict_name.substr(dict_name.size() - 5) == ".temp") {
++    LOG(INFO) << "Skipping backup of temporary dict: '" << dict_name << "'.";
++    return true; // 假设跳过备份操作是成功的
++  }
+   the<Db> db(user_db_component_->Create(dict_name));
+   if (!db->OpenReadOnly())
+     return false;
+---
+
