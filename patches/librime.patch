@@ -36,17 +36,18 @@ Subject: [PATCH 2/2] Persist options to user.yaml in RimeSetOption
  4 files changed, 15 insertions(+), 5 deletions(-)
 
 diff --git a/src/rime/engine.cc b/src/rime/engine.cc
-index 64c0fb68..549a8112 100644
+index 44406c07..1bd1fc2d 100644
 --- a/src/rime/engine.cc
 +++ b/src/rime/engine.cc
-@@ -54,7 +54,6 @@ class ConcreteEngine : public Engine {
+@@ -52,7 +52,6 @@ class ConcreteEngine : public Engine {
+   vector<of<Filter>> filters_;
+   vector<of<Formatter>> formatters_;
    vector<of<Processor>> post_processors_;
-   // To make sure dumping user.yaml when processors_.clear(),
-   // switcher is owned by processors_[0]
--  weak<Switcher> switcher_;
+-  an<Switcher> switcher_;
  };
  
  // implementations
+
 diff --git a/src/rime/engine.h b/src/rime/engine.h
 index 2e1c8b81..47c39544 100644
 --- a/src/rime/engine.h
@@ -63,7 +64,7 @@ index 2e1c8b81..47c39544 100644
    void set_active_engine(Engine* engine = nullptr) { active_engine_ = engine; }
  
    RIME_API static Engine* Create();
-+  weak<Switcher> switcher_;
++  an<Switcher> switcher_;
  
   protected:
    Engine();
@@ -105,7 +106,7 @@ index 678169c0..1085fe5c 100644
      return;
    ctx->set_option(option, !!value);
 +  auto engine = session->engine_.get();
-+  auto switcher = engine->switcher_.lock();
++  auto switcher = engine->switcher_;
 +  if (switcher->IsAutoSave(option)) {
 +    if (Config* user_config = switcher->user_config()) {
 +      user_config->SetBool("var/option/" + std::string(option), value);
