@@ -11,7 +11,7 @@ diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index 6364e1c8..347107f0 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -162,6 +162,8 @@ if(BUILD_SHARED_LIBS)
+@@ -166,6 +166,8 @@ if(BUILD_SHARED_LIBS)
  else()
    add_library(rime-static STATIC ${rime_src})
    target_link_libraries(rime-static ${rime_deps})
